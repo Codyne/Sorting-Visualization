@@ -58,9 +58,9 @@ void draw_algo_text() {
 	glScalef(0.0001 * ARR_SIZE, 0.0001 * ARR_SIZE, 0.0001 * ARR_SIZE);
 	glTranslatef(0.0, 9500.0, 0.0);
 
-	for (size_t i = 0; i < len; i++) {
+	for (size_t i = 0; i < len; i++)
 		glutStrokeCharacter(GLUT_STROKE_MONO_ROMAN, ALGO_TEXT[i]);
-	}
+
 	glPopMatrix();
 }
 
