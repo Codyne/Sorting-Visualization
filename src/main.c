@@ -6,7 +6,7 @@
 #include "sorts.h"
 #include "swap_tracker.h"
 
-char ALGO_TEXT[50];
+char ALGO_TEXT[512];
 int *ARR = NULL;
 int *GL_ARR = NULL;
 int ARR_SIZE = 0;
@@ -126,6 +126,7 @@ int select_fps() {
 	fgets(input, 10, stdin);
 	fflush(stdin);
 
+
 	return atoi(input);
 }
 
@@ -133,22 +134,25 @@ int populate_sort_steps(int selectedSort) {
 	switch (selectedSort) {
 	case 0:
 		bubbleSort(ARR, ARR_SIZE);
-		strncpy(ALGO_TEXT, "Bubble Sort", 20);
+		strncpy(ALGO_TEXT, "Bubble Sort | ", 20);
 		break;
 	case 1:
 		quickSort(ARR, 0, ARR_SIZE - 1);
-		strncpy(ALGO_TEXT, "Quick Sort", 20);
+		strncpy(ALGO_TEXT, "Quick Sort | ", 20);
 		break;
 	case 2:
 		mergeSort(ARR, 0, ARR_SIZE - 1);
-		strncpy(ALGO_TEXT, "Merge Sort", 20);
+		strncpy(ALGO_TEXT, "Merge Sort | ", 20);
 		break;
 	case 3:
 		heapSort(ARR, ARR_SIZE);
-		strncpy(ALGO_TEXT, "Heap Sort", 20);
+		strncpy(ALGO_TEXT, "Heap Sort | ", 20);
 		break;
 	default: break;
 	}
+
+	sprintf(ALGO_TEXT + strlen(ALGO_TEXT),
+			 "Array Size: %d | Speed: %d", ARR_SIZE, FPS);
 }
 
 int main(int argc, char **argv) {
