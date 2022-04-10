@@ -45,8 +45,8 @@ void draw_rect(float x, int i) {
 	glEnd();
 }
 
-void draw_algo_text() {
-	size_t len = strlen(ALGO_TEXT);
+void draw_text(float x, float y, float z, char *text) {
+	size_t len = strlen(text);
 	glPushMatrix();
 
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -55,16 +55,16 @@ void draw_algo_text() {
 	glLineWidth(3.0);
 
 	glColor3f(0.0, 1.0, 0.0);
-	glScalef(0.0001 * ARR_SIZE, 0.0001 * ARR_SIZE, 0.0001 * ARR_SIZE);
+	glScalef(x, y, z);
 	glTranslatef(0.0, 9500.0, 0.0);
 
 	for (size_t i = 0; i < len; i++)
-		glutStrokeCharacter(GLUT_STROKE_MONO_ROMAN, ALGO_TEXT[i]);
+		glutStrokeCharacter(GLUT_STROKE_MONO_ROMAN, text[i]);
 
 	glPopMatrix();
 }
 
-void display(void) {
+void display() {
 	glClear(GL_COLOR_BUFFER_BIT);
 
 	glColor3f(1.0, 1.0, 1.0);
@@ -73,7 +73,8 @@ void display(void) {
 		draw_rect(GL_ARR[i], i);
 	}
 
-	draw_algo_text();
+	draw_text(0.0001 * ARR_SIZE, 0.0001 * ARR_SIZE, 0.0001 * ARR_SIZE,
+			  ALGO_TEXT);
 	glFlush();
 
 	if (cur_swap->next) {
