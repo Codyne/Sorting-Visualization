@@ -5,6 +5,7 @@
 
 #include "sorts.h"
 #include "swap_tracker.h"
+#include "menu_text.h"
 
 char ALGO_TEXT[512];
 int *ARR = NULL;
@@ -45,7 +46,7 @@ void draw_rect(float x, int i) {
 	glEnd();
 }
 
-void draw_text(float x, float y, float z, char *text) {
+void draw_text(float x, float y, float z, char *text, int highlight) {
 	size_t len = strlen(text);
 	glPushMatrix();
 
@@ -54,7 +55,7 @@ void draw_text(float x, float y, float z, char *text) {
 	glEnable(GL_LINE_SMOOTH);
 	glLineWidth(3.0);
 
-	glColor3f(0.0, 1.0, 0.0);
+	glColor3f(0.0 + highlight, 1.0, 0.0);
 	glScalef(0.0001 * ARR_SIZE, 0.0001 * ARR_SIZE, 0.0001 * ARR_SIZE);
 	glTranslatef(x, y, z);
 
@@ -62,6 +63,23 @@ void draw_text(float x, float y, float z, char *text) {
 		glutStrokeCharacter(GLUT_STROKE_MONO_ROMAN, text[i]);
 
 	glPopMatrix();
+}
+
+void menu() {
+	glClear(GL_COLOR_BUFFER_BIT);
+
+	glColor3f(1.0, 1.0, 1.0);
+
+	float ypos = 7500.0f;
+
+	for (int i = 0; i < MENU_ROWS; i++) {
+		draw_text(100.0, ypos, 0.0, MENU_TEXT.text[i], MENU_TEXT.highlight[i]);
+		ypos -= 500.0f;
+	}
+
+	glFlush();
+
+	glutSwapBuffers();
 }
 
 void display() {
@@ -73,7 +91,7 @@ void display() {
 		draw_rect(GL_ARR[i], i);
 	}
 
-	draw_text(0.0, 9500.0, 0.0, ALGO_TEXT);
+	draw_text(0.0, 9500.0, 0.0, ALGO_TEXT, 0);
 	glFlush();
 
 	if (cur_swap->next) {
@@ -162,6 +180,7 @@ int main(int argc, char **argv) {
 	while (FPS < 1) FPS = select_fps();
 
 	init_arrays();
+	INIT_MENU_TEXT();
 	populate_sort_steps(selectedSort);
 
 	//print_swaps();
@@ -180,7 +199,8 @@ int main(int argc, char **argv) {
 
 	glOrtho(0.0, ARR_SIZE, 0.0, ARR_SIZE, -1.0, 1.0);
 
-	glutDisplayFunc(display);
+	//glutDisplayFunc(display);
+	glutDisplayFunc(menu);
 	glutTimerFunc(0, timer, 0);
 	glutMainLoop();
 
