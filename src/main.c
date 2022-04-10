@@ -55,8 +55,8 @@ void draw_text(float x, float y, float z, char *text) {
 	glLineWidth(3.0);
 
 	glColor3f(0.0, 1.0, 0.0);
-	glScalef(x, y, z);
-	glTranslatef(0.0, 9500.0, 0.0);
+	glScalef(0.0001 * ARR_SIZE, 0.0001 * ARR_SIZE, 0.0001 * ARR_SIZE);
+	glTranslatef(x, y, z);
 
 	for (size_t i = 0; i < len; i++)
 		glutStrokeCharacter(GLUT_STROKE_MONO_ROMAN, text[i]);
@@ -73,8 +73,7 @@ void display() {
 		draw_rect(GL_ARR[i], i);
 	}
 
-	draw_text(0.0001 * ARR_SIZE, 0.0001 * ARR_SIZE, 0.0001 * ARR_SIZE,
-			  ALGO_TEXT);
+	draw_text(0.0, 9500.0, 0.0, ALGO_TEXT);
 	glFlush();
 
 	if (cur_swap->next) {
