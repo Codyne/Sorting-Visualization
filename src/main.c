@@ -46,13 +46,22 @@ void draw_rect(float x, int i) {
 }
 
 void draw_algo_text() {
-	/* glColor3f(1.0, 1.0, 1.0); */
-	/* glRasterPos2f(0.1, 0.1); */
-	/* int len, i; */
-	/* len = (int)strlen(ALGO_TEXT); */
-	/* for (i = 0; i < len; i++) { */
-	/* 	glutBitmapCharacter(GLUT_BITMAP_8_BY_13, ALGO_TEXT[i]); */
-	/* } */
+	size_t len = strlen(ALGO_TEXT);
+	glPushMatrix();
+
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glEnable(GL_BLEND);
+	glEnable(GL_LINE_SMOOTH);
+	glLineWidth(3.0);
+
+	glColor3f(0.0, 1.0, 0.0);
+	glScalef(0.0001 * ARR_SIZE, 0.0001 * ARR_SIZE, 0.0001 * ARR_SIZE);
+	glTranslatef(0.0, 9500.0, 0.0);
+
+	for (size_t i = 0; i < len; i++) {
+		glutStrokeCharacter(GLUT_STROKE_MONO_ROMAN, ALGO_TEXT[i]);
+	}
+	glPopMatrix();
 }
 
 void display(void) {
@@ -63,6 +72,7 @@ void display(void) {
 	for (int i = 0; i < ARR_SIZE; i++) {
 		draw_rect(GL_ARR[i], i);
 	}
+
 	draw_algo_text();
 	glFlush();
 
@@ -73,6 +83,8 @@ void display(void) {
 			GL_ARR[cur_swap->i] = cur_swap->j;
 		cur_swap = cur_swap->next;
 	}
+
+	glutSwapBuffers();
 }
 
 void timer() {
