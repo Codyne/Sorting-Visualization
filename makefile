@@ -7,7 +7,7 @@ CC := gcc
 CFLAGS := -I include
 LDFLAGS := -lglut -lGL
 
-release: $(OBJ_FILES)
+sortvis: $(OBJ_FILES)
 	$(CC) $^ $(LDFLAGS) -o $@
 
 debug: export DEBUG=-DDEBUG=1
@@ -18,5 +18,5 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	$(CC) $(DEBUG) $(CFLAGS) -c $< -o $@
 
 clean: FORCE
-	@rm -f $(OBJ_DIR)/* release debug
+	@rm -f $(OBJ_DIR)/* sortvis debug
 FORCE:
