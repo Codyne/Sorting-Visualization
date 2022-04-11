@@ -5,7 +5,7 @@ OBJ_FILES := $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRC_FILES))
 
 CC := gcc
 CFLAGS := -I include
-LDFLAGS := -lglut -lGL
+LDFLAGS := -lglut -lGL -lm
 
 sortvis: $(OBJ_FILES)
 	$(CC) $^ $(LDFLAGS) -o $@

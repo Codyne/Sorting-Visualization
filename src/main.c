@@ -152,6 +152,11 @@ int populate_sort_steps(int selectedSort) {
 		heapSort(ARR, ARR_SIZE);
 		strncpy(ALGO_TEXT, "Heap Sort | ", 20);
 		break;
+	case 4:
+		radixSort(ARR, ARR_SIZE);
+		strncpy(ALGO_TEXT, "Radix Sort | ", 20);
+		break;
+
 	default: break;
 	}
 
@@ -207,6 +212,7 @@ int main(int argc, char **argv) {
 	add_menu_text(&SORT_MENU_TEXT, "QUICK  SORT", 30, 1, 0);
 	add_menu_text(&SORT_MENU_TEXT, "MERGE  SORT", 30, 2, 0);
 	add_menu_text(&SORT_MENU_TEXT, "HEAP   SORT", 30, 3, 0);
+	add_menu_text(&SORT_MENU_TEXT, "RADIX  SORT", 30, 4, 0);
 
 	add_menu_text(&SIZE_MENU_TEXT, "SELECT ARRAY SIZE", 30, 0, 0);
 	add_menu_text(&SIZE_MENU_TEXT, "10", 10, 10, 0);

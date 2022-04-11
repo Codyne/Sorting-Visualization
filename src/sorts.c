@@ -1,5 +1,6 @@
 #include "sorts.h"
 #include "swap_tracker.h"
+#include <math.h>
 
 void bubbleSort(int arr[], int n) {
 	for (int i = 0; i < n-1; i++) {
@@ -124,3 +125,45 @@ void heapSort(int arr[], int n) {
     }
 }
 /*******************/
+
+/**** RADIX SORT ****/
+void radixSort(int arr[], int n) {
+	int maximum = arr[0];
+	int digits = 0;
+
+	for (int i = 1; i < n; i++)
+		if (maximum < arr[i]) maximum = arr[i];
+
+	while (maximum > 0) {
+		digits++;
+		maximum /= 10;
+	}
+
+	for (int i = 0; i < digits; i++) {
+		int power = pow(10, i);
+		int new_array[n];
+		int count[10];
+
+		memset(count, 0, sizeof(count));
+
+		for (int j = 0; j < n; j++) {
+			int num = (arr[j] / power) % 10;
+			count[num]++;
+		}
+
+		for (int j = 1; j < 10; j++) count[j] += count[j - 1];
+
+		for (int j = n - 1; j >= 0; j--) {
+			int num = (arr[j] / power) % 10;
+
+			new_array[count[num] - 1] = arr[j];
+			count[num]--;
+		}
+
+		for(int j = 0; j < n; j++) {
+			arr[j] = new_array[j];
+			set_swap_value(j, new_array[j]);
+		}
+	}
+}
+/********************/
