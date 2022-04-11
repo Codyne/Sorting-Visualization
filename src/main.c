@@ -227,8 +227,6 @@ int main(int argc, char **argv) {
 	add_menu_text(&SPEED_MENU_TEXT, "1000", 10, 1000, 0);
 	add_menu_text(&SPEED_MENU_TEXT, "5000", 10, 5000, 0);
 
-	//print_swaps();
-
 	glutInit(&argc, argv);
 	glutInitDisplayMode ( GLUT_SINGLE | GLUT_RGB | GLUT_DEPTH);
 
