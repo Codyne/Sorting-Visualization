@@ -174,6 +174,7 @@ void predisp() {
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	glOrtho(0.0, ARR_SIZE, 0.0, ARR_SIZE, -1.0, 1.0);
+	set_display_cb(NULL);
 	glutDisplayFunc(display);
 }
 
