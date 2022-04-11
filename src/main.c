@@ -242,10 +242,9 @@ int main(int argc, char **argv) {
 
 	glOrtho(0.0, ARR_SIZE, 0.0, ARR_SIZE, -1.0, 1.0);
 
-	//glutDisplayFunc(display);
 	glutDisplayFunc(sort_menu);
 	set_display_cb(size_menu);
-	//glutDisplayFunc(size_menu);
+
 	glutTimerFunc(0, timer, 0);
 	glutKeyboardFunc(keyboard);
 	glutSpecialFunc(special_keyboard);
