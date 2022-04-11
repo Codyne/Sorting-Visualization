@@ -112,11 +112,15 @@ void draw_menu(menu_t *m) {
 }
 
 void display() {
+	static int hlIndex = -1;
+
 	glClear(GL_COLOR_BUFFER_BIT);
 
 	glColor3f(1.0, 1.0, 1.0);
 
 	for (int i = 0; i < ARR_SIZE; i++) {
+		if (i == hlIndex) glColor3f(1.0, 0.0, 0.0);
+		else glColor3f(1.0, 1.0, 1.0);
 		draw_rect(GL_ARR[i], i);
 	}
 
@@ -124,10 +128,15 @@ void display() {
 	glFlush();
 
 	if (cur_swap->next) {
-		if (cur_swap->opt == SWAP_OPT)
+		if (cur_swap->opt == SWAP_OPT) {
 			SWAP(GL_ARR[cur_swap->i], GL_ARR[cur_swap->j]);
-		else if (cur_swap->opt == SET_VAL_OPT)
+			hlIndex = -1;
+		} else if (cur_swap->opt == SET_VAL_OPT) {
 			GL_ARR[cur_swap->i] = cur_swap->j;
+			hlIndex = -1;
+		} else if (cur_swap->opt == SET_HL_OPT) {
+			hlIndex = cur_swap->i;
+		}
 		cur_swap = cur_swap->next;
 	}
 

@@ -19,6 +19,7 @@ int partition(int arr[], int low, int high) {
 	int i = (low - 1);
 
 	for (int j = low; j < high; j++) {
+		set_swap_highlight(j);
 		if (arr[j] <= pivot) {
 			i++;
 			SWAP(arr[i], arr[j]);
@@ -49,10 +50,15 @@ void merge(int arr[], int l, int m, int r) {
 
 	int L[n1], R[n2];
 
-	for (i = 0; i < n1; i++)
+	for (i = 0; i < n1; i++) {
 		L[i] = arr[l + i];
-	for (j = 0; j < n2; j++)
+		set_swap_highlight(l + i);
+	}
+
+	for (j = 0; j < n2; j++) {
 		R[j] = arr[m + 1 + j];
+		set_swap_highlight(m + 1 + j);
+	}
 
 	i = 0;
 	j = 0;
@@ -104,9 +110,15 @@ void heapify(int arr[], int n, int i) {
     int leftChild = 2 * i + 1;
     int rightChild = 2 * i + 2;
 
-    if (leftChild < n && arr[leftChild] > arr[max]) max = leftChild;
+    if (leftChild < n && arr[leftChild] > arr[max]) {
+		max = leftChild;
+		set_swap_highlight(max);
+	}
 
-    if (rightChild < n && arr[rightChild] > arr[max]) max = rightChild;
+    if (rightChild < n && arr[rightChild] > arr[max]) {
+		max = rightChild;
+		set_swap_highlight(max);
+	}
 
     if (max != i) {
 		SWAP(arr[i], arr[max]);
@@ -132,7 +144,10 @@ void radixSort(int arr[], int n) {
 	int digits = 0;
 
 	for (int i = 1; i < n; i++)
-		if (maximum < arr[i]) maximum = arr[i];
+		if (maximum < arr[i]) {
+			maximum = arr[i];
+			set_swap_highlight(i);
+		}
 
 	while (maximum > 0) {
 		digits++;

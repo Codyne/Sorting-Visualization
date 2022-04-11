@@ -40,6 +40,19 @@ void set_swap_value(int i, int j) {
 	swapt = swapt->next;
 }
 
+void set_swap_highlight(int i) {
+	if (swapt == NULL) {
+		init_swapt();
+	}
+
+	swapt->opt = SET_HL_OPT;
+	swapt->i = i;
+	swapt->next = (swap_t *)malloc(sizeof(swap_t));
+	if (!swapt->next) exit(1);
+
+	swapt = swapt->next;
+}
+
 void print_swaps() {
 	for (swap_t *p = head; p; p = p->next)
 		printf("[%d] - [%d, %d]\n", p->opt, p->i, p->j);

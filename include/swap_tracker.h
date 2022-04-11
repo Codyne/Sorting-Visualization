@@ -3,6 +3,7 @@
 
 #define SWAP_OPT 0
 #define SET_VAL_OPT 1
+#define SET_HL_OPT 2
 
 typedef struct swap_t {
 	int opt;
@@ -13,5 +14,6 @@ typedef struct swap_t {
 void init_swapt();
 void insert_swap(int i, int j);
 void set_swap_value(int i, int j);
+void set_swap_highlight(int i);
 void print_swaps();
 swap_t* get_head();
