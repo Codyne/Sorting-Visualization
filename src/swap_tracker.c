@@ -5,6 +5,8 @@ swap_t *swapt = NULL;
 
 void init_swapt() {
 	swapt = (swap_t *)malloc(sizeof(swap_t));
+	if (!swapt) exit(1);
+
 	swapt->opt = 0;
 	swapt->next = NULL;
 	head = swapt;
@@ -19,6 +21,8 @@ void insert_swap(int i, int j) {
 	swapt->i = i;
 	swapt->j = j;
 	swapt->next = (swap_t *)malloc(sizeof(swap_t));
+	if (!swapt->next) exit(1);
+
 	swapt = swapt->next;
 }
 
@@ -31,8 +35,9 @@ void set_swap_value(int i, int j) {
 	swapt->i = i;
 	swapt->j = j;
 	swapt->next = (swap_t *)malloc(sizeof(swap_t));
-	swapt = swapt->next;
+	if (!swapt->next) exit(1);
 
+	swapt = swapt->next;
 }
 
 void print_swaps() {

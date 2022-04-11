@@ -1,23 +1,18 @@
-#include <strings.h>
+#ifndef MENU_TEXT_H
+#define MENU_TEXT_H
 
-#define MENU_ROWS 10
-#define MENU_COLS 50
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
 
-typedef struct {
-	char text[MENU_ROWS][MENU_COLS];
-	int highlight[MENU_ROWS];
+typedef struct menu_t {
+	char *text;
+	int val;
+	int highlight;
+	struct menu_t *next;
 } menu_t;
 
-menu_t MENU_TEXT;
+void add_menu_text(menu_t *head, char *str, size_t len, int val, int hl);
+int get_menu_val(menu_t *m, int index);
 
-#define INIT_MENU_TEXT()										\
-	strncpy(MENU_TEXT.text[0], "SELECT SORTING ALGORITHM", 30);	\
-	MENU_TEXT.highlight[0] = 0;									\
-	strncpy(MENU_TEXT.text[1], "BUBBLE SORT", 30);				\
-	MENU_TEXT.highlight[1] = 1;									\
-	strncpy(MENU_TEXT.text[2], "QUICK  SORT", 30);				\
-	MENU_TEXT.highlight[2] = 0;									\
-	strncpy(MENU_TEXT.text[3], "MERGE  SORT", 30);				\
-	MENU_TEXT.highlight[3] = 0;									\
-	strncpy(MENU_TEXT.text[4], "HEAP   SORT", 30);				\
-	MENU_TEXT.highlight[4] = 0;
+#endif

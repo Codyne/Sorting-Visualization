@@ -5,6 +5,7 @@
 
 #include "sorts.h"
 #include "swap_tracker.h"
+#include "keyboard_handler.h"
 #include "menu_text.h"
 
 char ALGO_TEXT[512];
@@ -12,13 +13,25 @@ int *ARR = NULL;
 int *GL_ARR = NULL;
 int ARR_SIZE = 0;
 int FPS = 0;
+
+int selectedSort = 0;
+int selectedSize = 0;
+int selectedSpeed = 0;
+
+menu_t SORT_MENU_TEXT;
+menu_t SIZE_MENU_TEXT;
+menu_t SPEED_MENU_TEXT;
+
 swap_t *cur_swap;
 
 void init_arrays() {
 	time_t t;
 
-	ARR = (int *)malloc(sizeof(int) * ARR_SIZE);
-	GL_ARR = (int *)malloc(sizeof(int) * ARR_SIZE);
+	ARR = (int *)calloc(ARR_SIZE, sizeof(int));
+	if (!ARR) exit(1);
+
+	GL_ARR = (int *)calloc(ARR_SIZE, sizeof(int));
+	if (!GL_ARR) exit(1);
 
 	srand((unsigned)time(&t));
 	for (int i = 0; i < ARR_SIZE; i++) {
@@ -65,21 +78,37 @@ void draw_text(float x, float y, float z, char *text, int highlight) {
 	glPopMatrix();
 }
 
-void menu() {
+void draw_menu(menu_t *m) {
 	glClear(GL_COLOR_BUFFER_BIT);
 
 	glColor3f(1.0, 1.0, 1.0);
 
 	float ypos = 7500.0f;
 
-	for (int i = 0; i < MENU_ROWS; i++) {
-		draw_text(100.0, ypos, 0.0, MENU_TEXT.text[i], MENU_TEXT.highlight[i]);
+	int i = 0;
+	for (menu_t *p = m->next; p != NULL; p = p->next) {
+		if (i == get_k_index()) {
+			p->highlight = 1;
+		} else {
+			if (!p->next && i < get_k_index()) {
+				set_k_index(i);
+				p->highlight = 1;
+			} else {
+				p->highlight = 0;
+			}
+		}
+
+
+		draw_text(100.0, ypos, 0.0, p->text, p->highlight);
 		ypos -= 500.0f;
+
+		i++;
 	}
 
 	glFlush();
 
 	glutSwapBuffers();
+
 }
 
 void display() {
@@ -103,49 +132,6 @@ void display() {
 	}
 
 	glutSwapBuffers();
-}
-
-void timer() {
-	glutPostRedisplay();
-	glutTimerFunc(1000 / FPS, timer, 0);
-}
-
-int select_sort() {
-	char input[5];
-	printf("1 - Bubble Sort\n");
-	printf("2 - Quick Sort\n");
-	printf("3 - Merge Sort\n");
-	printf("4 - Heap Sort\n");
-	printf("Select Sorting Algorithm (1 - 4): ");
-	fflush(stdout);
-
-	fgets(input, 3, stdin);
-	fflush(stdin);
-
-	return atoi(input) - 1;
-}
-
-int select_array_size() {
-	char input[15];
-	printf("Select Array Size (3 or more): ");
-
-	fflush(stdout);
-	fgets(input, 10, stdin);
-	fflush(stdin);
-
-	return atoi(input);
-}
-
-int select_fps() {
-	char input[15];
-	printf("Select Swaps Per Second (1 or more): ");
-
-	fflush(stdout);
-	fgets(input, 10, stdin);
-	fflush(stdin);
-
-
-	return atoi(input);
 }
 
 int populate_sort_steps(int selectedSort) {
@@ -173,18 +159,75 @@ int populate_sort_steps(int selectedSort) {
 			 "Array Size: %d | Speed: %d", ARR_SIZE, FPS);
 }
 
-int main(int argc, char **argv) {
-	int selectedSort = -1;
-	while (selectedSort < 0 || selectedSort > 3) selectedSort = select_sort();
-	while (ARR_SIZE < 3) ARR_SIZE = select_array_size();
-	while (FPS < 1) FPS = select_fps();
+void predisp() {
+	selectedSpeed = get_prev_index();
+
+	ARR_SIZE = get_menu_val(&SIZE_MENU_TEXT, selectedSize);
+	FPS = get_menu_val(&SPEED_MENU_TEXT, selectedSpeed);
 
 	init_arrays();
-	INIT_MENU_TEXT();
 	populate_sort_steps(selectedSort);
 
-	//print_swaps();
 	cur_swap = get_head();
+
+	glClearColor(0.0, 0.0, 0.0, 0.0);
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	glOrtho(0.0, ARR_SIZE, 0.0, ARR_SIZE, -1.0, 1.0);
+	glutDisplayFunc(display);
+}
+
+void speed_menu() {
+	selectedSize = get_prev_index();
+	draw_menu(&SPEED_MENU_TEXT);
+	set_display_cb(predisp);
+}
+
+void size_menu() {
+	selectedSort = get_prev_index() - 1;
+	draw_menu(&SIZE_MENU_TEXT);
+	set_display_cb(speed_menu);
+}
+
+void sort_menu() {
+	draw_menu(&SORT_MENU_TEXT);
+}
+
+void timer() {
+	glutPostRedisplay();
+	glutTimerFunc(1000 / FPS, timer, 0);
+}
+
+int main(int argc, char **argv) {
+	ARR_SIZE = 50;
+	FPS = 60;
+	add_menu_text(&SORT_MENU_TEXT, "SELECT SORTING ALGORITHM", 30, 0, 0);
+	add_menu_text(&SORT_MENU_TEXT, "BUBBLE SORT", 30, 0, 0);
+	add_menu_text(&SORT_MENU_TEXT, "QUICK  SORT", 30, 1, 0);
+	add_menu_text(&SORT_MENU_TEXT, "MERGE  SORT", 30, 2, 0);
+	add_menu_text(&SORT_MENU_TEXT, "HEAP   SORT", 30, 3, 0);
+
+	add_menu_text(&SIZE_MENU_TEXT, "SELECT ARRAY SIZE", 30, 0, 0);
+	add_menu_text(&SIZE_MENU_TEXT, "10", 10, 10, 0);
+	add_menu_text(&SIZE_MENU_TEXT, "50", 10, 50, 0);
+	add_menu_text(&SIZE_MENU_TEXT, "100", 10, 100, 0);
+	add_menu_text(&SIZE_MENU_TEXT, "250", 10, 250, 0);
+	add_menu_text(&SIZE_MENU_TEXT, "500", 10, 500, 0);
+	add_menu_text(&SIZE_MENU_TEXT, "1000", 10, 1000, 0);
+	add_menu_text(&SIZE_MENU_TEXT, "5000", 10, 5000, 0);
+
+	add_menu_text(&SPEED_MENU_TEXT, "SELECT SPEED (FPS)", 30, 0, 0);
+	add_menu_text(&SPEED_MENU_TEXT, "5", 10, 5, 0);
+	add_menu_text(&SPEED_MENU_TEXT, "20", 10, 20, 0);
+	add_menu_text(&SPEED_MENU_TEXT, "30", 10, 30, 0);
+	add_menu_text(&SPEED_MENU_TEXT, "60", 10, 60, 0);
+	add_menu_text(&SPEED_MENU_TEXT, "100", 10, 100, 0);
+	add_menu_text(&SPEED_MENU_TEXT, "200", 10, 200, 0);
+	add_menu_text(&SPEED_MENU_TEXT, "500", 10, 500, 0);
+	add_menu_text(&SPEED_MENU_TEXT, "1000", 10, 1000, 0);
+	add_menu_text(&SPEED_MENU_TEXT, "5000", 10, 5000, 0);
+
+	//print_swaps();
 
 	glutInit(&argc, argv);
 	glutInitDisplayMode ( GLUT_SINGLE | GLUT_RGB | GLUT_DEPTH);
@@ -200,8 +243,12 @@ int main(int argc, char **argv) {
 	glOrtho(0.0, ARR_SIZE, 0.0, ARR_SIZE, -1.0, 1.0);
 
 	//glutDisplayFunc(display);
-	glutDisplayFunc(menu);
+	glutDisplayFunc(sort_menu);
+	set_display_cb(size_menu);
+	//glutDisplayFunc(size_menu);
 	glutTimerFunc(0, timer, 0);
+	glutKeyboardFunc(keyboard);
+	glutSpecialFunc(special_keyboard);
 	glutMainLoop();
 
 	return 0;
