@@ -15,6 +15,6 @@ make
 
 ## Options
 
-`Sorting Algorithm`: Currently can choose between 4 sorting algorithms: bubble, quick, merge, and heap.\
-`Array Size`: Array size can be any number >= 3. The arrays are randomly generated with values 0 to n.\
-`Swaps Per Second`: How fast to play the sorting animation. Must be 1 or more. Use higher numbers to speed up visualizer.
+`Sorting Algorithm`: Currently can choose between 5 sorting algorithms: bubble, quick, merge, heap, and radix.\
+`Array Size`: Size of array to be sorted. The arrays contain values equally distributed between `0 - (n-1)` and placed at random indexes.\
+`Speed`: How fast to play the sorting animation. Higher is faster.
