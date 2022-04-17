@@ -1,12 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <pthread.h>
 #include <GL/glut.h>
 
 #include "sorts.h"
 #include "swap_tracker.h"
 #include "keyboard_handler.h"
 #include "menu_text.h"
+#include "generate_tone.h"
 
 char ALGO_TEXT[512];
 int *ARR = NULL;
@@ -111,6 +113,10 @@ void draw_menu(menu_t *m) {
 
 }
 
+void *tone_thread(void *args) {
+	generate_tone((*(int *)args / 10) + 1, 44100, 1, 5 * FPS);
+}
+
 void display() {
 	static int hlIndex = -1;
 
@@ -136,6 +142,9 @@ void display() {
 			hlIndex = -1;
 		} else if (cur_swap->opt == SET_HL_OPT) {
 			hlIndex = cur_swap->i;
+			pthread_t pt;
+			pthread_create(&pt, NULL, tone_thread, (void *)&GL_ARR[cur_swap->i]);
+			pthread_detach(pt);
 		}
 		cur_swap = cur_swap->next;
 	}
@@ -168,7 +177,7 @@ int populate_sort_steps(int selectedSort) {
 
 	default: break;
 	}
-
+	highlight_all(ARR, ARR_SIZE);
 	sprintf(ALGO_TEXT + strlen(ALGO_TEXT),
 			 "Array Size: %d | Speed: %d", ARR_SIZE, FPS);
 }

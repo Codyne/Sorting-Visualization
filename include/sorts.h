@@ -9,6 +9,7 @@
 		memcpy(&x,tmp, sizeof(x));										\
 	} while(0)
 
+void highlight_all(int arr[], int n);
 
 void bubbleSort(int arr[], int n);
 void quickSort(int arr[], int low, int high);
