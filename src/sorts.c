@@ -178,6 +178,7 @@ void radixSort(int arr[], int n) {
 
 			new_array[count[num] - 1] = arr[j];
 			count[num]--;
+			set_swap_highlight(arr[j]);
 		}
 
 		for(int j = 0; j < n; j++) {
