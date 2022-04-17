@@ -10,6 +10,7 @@ void highlight_all(int arr[], int n) {
 void bubbleSort(int arr[], int n) {
 	for (int i = 0; i < n-1; i++) {
 		for (int j = 0; j < n-i-1; j++) {
+			set_swap_highlight(j + 1);
 			if (arr[j] > arr[j+1]) {
 				SWAP(arr[j], arr[j+1]);
 				insert_swap(j, j + 1);
