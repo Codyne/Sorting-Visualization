@@ -20,6 +20,6 @@ make
 
 ## Options
 
-`Sorting Algorithm`: Currently can choose between 5 sorting algorithms: bubble, quick, merge, heap, and radix.\
+`Sorting Algorithm`: Currently can choose between a handful of sorting algorithms: bubble, selection, insertion, quick, merge, heap, radix, and cocktail.\
 `Array Size`: Size of array to be sorted. The arrays contain values equally distributed between `0 - (n-1)` and placed at random indexes.\
 `Speed`: How fast to play the sorting animation. Higher is faster.
