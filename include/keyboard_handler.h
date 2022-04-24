@@ -4,6 +4,7 @@
 #include <GL/glut.h>
 
 #include "menu_text.h"
+#include "generate_tone.h"
 
 void keyboard(unsigned char key, int x, int y);
 void special_keyboard(int key, int x, int y);

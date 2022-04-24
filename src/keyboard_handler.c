@@ -12,6 +12,7 @@ void keyboard(unsigned char key, int x, int y) {
 		if (displayCallback) glutDisplayFunc(displayCallback);
 		break;
 	case 27:
+		cleanup_pcm();
 		exit(0);
 		break;
 	}

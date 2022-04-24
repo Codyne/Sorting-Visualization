@@ -114,7 +114,31 @@ void draw_menu(menu_t *m) {
 }
 
 void *tone_thread(void *args) {
-	generate_tone((*(int *)args / 10) + 1, 44100, 1, 5 * FPS);
+	play_tone((*(int *)args / 10) + 1);
+}
+
+int msleep(long msec) {
+	struct timespec ts;
+	int res;
+
+	if (msec < 0) {
+		errno = EINVAL;
+		return -1;
+	}
+
+	ts.tv_sec = msec / 1000;
+	ts.tv_nsec = (msec % 1000) * 1000000;
+
+	do {
+		res = nanosleep(&ts, &ts);
+	} while (res && errno == EINTR);
+
+	return res;
+}
+
+void *sleep_stop_thread(void *) {
+	msleep(800);
+	stop_tone();
 }
 
 void display() {
@@ -133,6 +157,7 @@ void display() {
 	draw_text(0.0, 9500.0, 0.0, ALGO_TEXT, 0);
 	glFlush();
 
+	int x = 0;
 	if (cur_swap->next) {
 		if (cur_swap->opt == SWAP_OPT) {
 			SWAP(GL_ARR[cur_swap->i], GL_ARR[cur_swap->j]);
@@ -141,12 +166,18 @@ void display() {
 			GL_ARR[cur_swap->i] = cur_swap->j;
 			hlIndex = -1;
 		} else if (cur_swap->opt == SET_HL_OPT) {
+			stop_tone();
 			hlIndex = cur_swap->i;
 			pthread_t pt;
 			pthread_create(&pt, NULL, tone_thread, (void *)&GL_ARR[cur_swap->i]);
 			pthread_detach(pt);
+
+			pthread_create(&pt, NULL, sleep_stop_thread, NULL);
+			pthread_detach(pt);
 		}
 		cur_swap = cur_swap->next;
+	} else {
+		stop_tone();
 	}
 
 	glutSwapBuffers();
@@ -198,6 +229,7 @@ void predisp() {
 	glLoadIdentity();
 	glOrtho(0.0, ARR_SIZE, 0.0, ARR_SIZE, -1.0, 1.0);
 	set_display_cb(NULL);
+	init_pcm(44100, 1, 100);
 	glutDisplayFunc(display);
 }
 
@@ -234,23 +266,18 @@ int main(int argc, char **argv) {
 
 	add_menu_text(&SIZE_MENU_TEXT, "SELECT ARRAY SIZE", 30, 0, 0);
 	add_menu_text(&SIZE_MENU_TEXT, "10", 10, 10, 0);
+	add_menu_text(&SIZE_MENU_TEXT, "25", 10, 25, 0);
 	add_menu_text(&SIZE_MENU_TEXT, "50", 10, 50, 0);
+	add_menu_text(&SIZE_MENU_TEXT, "75", 10, 75, 0);
 	add_menu_text(&SIZE_MENU_TEXT, "100", 10, 100, 0);
-	add_menu_text(&SIZE_MENU_TEXT, "250", 10, 250, 0);
-	add_menu_text(&SIZE_MENU_TEXT, "500", 10, 500, 0);
-	add_menu_text(&SIZE_MENU_TEXT, "1000", 10, 1000, 0);
-	add_menu_text(&SIZE_MENU_TEXT, "5000", 10, 5000, 0);
 
 	add_menu_text(&SPEED_MENU_TEXT, "SELECT SPEED (FPS)", 30, 0, 0);
 	add_menu_text(&SPEED_MENU_TEXT, "5", 10, 5, 0);
-	add_menu_text(&SPEED_MENU_TEXT, "20", 10, 20, 0);
-	add_menu_text(&SPEED_MENU_TEXT, "30", 10, 30, 0);
-	add_menu_text(&SPEED_MENU_TEXT, "60", 10, 60, 0);
+	add_menu_text(&SPEED_MENU_TEXT, "10", 10, 10, 0);
+	add_menu_text(&SPEED_MENU_TEXT, "25", 10, 25, 0);
+	add_menu_text(&SPEED_MENU_TEXT, "50", 10, 50, 0);
+	add_menu_text(&SPEED_MENU_TEXT, "75", 10, 75, 0);
 	add_menu_text(&SPEED_MENU_TEXT, "100", 10, 100, 0);
-	add_menu_text(&SPEED_MENU_TEXT, "200", 10, 200, 0);
-	add_menu_text(&SPEED_MENU_TEXT, "500", 10, 500, 0);
-	add_menu_text(&SPEED_MENU_TEXT, "1000", 10, 1000, 0);
-	add_menu_text(&SPEED_MENU_TEXT, "5000", 10, 5000, 0);
 
 	glutInit(&argc, argv);
 	glutInitDisplayMode ( GLUT_SINGLE | GLUT_RGB | GLUT_DEPTH);
