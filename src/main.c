@@ -185,24 +185,28 @@ void display() {
 
 int populate_sort_steps(int selectedSort) {
 	switch (selectedSort) {
-	case 0:
-		bubbleSort(ARR, ARR_SIZE);
+	case BUBBLE_SORT:
+		bubble_sort(ARR, ARR_SIZE);
 		strncpy(ALGO_TEXT, "Bubble Sort | ", 20);
 		break;
-	case 1:
-		quickSort(ARR, 0, ARR_SIZE - 1);
+	case SELECTION_SORT:
+		selection_sort(ARR, ARR_SIZE);
+		strncpy(ALGO_TEXT, "Selection Sort | ", 20);
+		break;
+	case QUICK_SORT:
+		quick_sort(ARR, 0, ARR_SIZE - 1);
 		strncpy(ALGO_TEXT, "Quick Sort | ", 20);
 		break;
-	case 2:
-		mergeSort(ARR, 0, ARR_SIZE - 1);
+	case MERGE_SORT:
+		merge_sort(ARR, 0, ARR_SIZE - 1);
 		strncpy(ALGO_TEXT, "Merge Sort | ", 20);
 		break;
-	case 3:
-		heapSort(ARR, ARR_SIZE);
+	case HEAP_SORT:
+		heap_sort(ARR, ARR_SIZE);
 		strncpy(ALGO_TEXT, "Heap Sort | ", 20);
 		break;
-	case 4:
-		radixSort(ARR, ARR_SIZE);
+	case RADIX_SORT:
+		radix_sort(ARR, ARR_SIZE);
 		strncpy(ALGO_TEXT, "Radix Sort | ", 20);
 		break;
 
@@ -258,11 +262,12 @@ int main(int argc, char **argv) {
 	ARR_SIZE = 50;
 	FPS = 60;
 	add_menu_text(&SORT_MENU_TEXT, "SELECT SORTING ALGORITHM", 30, 0, 0);
-	add_menu_text(&SORT_MENU_TEXT, "BUBBLE SORT", 30, 0, 0);
-	add_menu_text(&SORT_MENU_TEXT, "QUICK  SORT", 30, 1, 0);
-	add_menu_text(&SORT_MENU_TEXT, "MERGE  SORT", 30, 2, 0);
-	add_menu_text(&SORT_MENU_TEXT, "HEAP   SORT", 30, 3, 0);
-	add_menu_text(&SORT_MENU_TEXT, "RADIX  SORT", 30, 4, 0);
+	add_menu_text(&SORT_MENU_TEXT, "BUBBLE    SORT", 30, BUBBLE_SORT, 0);
+	add_menu_text(&SORT_MENU_TEXT, "SELECTION SORT", 30, SELECTION_SORT, 0);
+	add_menu_text(&SORT_MENU_TEXT, "QUICK     SORT", 30, QUICK_SORT, 0);
+	add_menu_text(&SORT_MENU_TEXT, "MERGE     SORT", 30, MERGE_SORT, 0);
+	add_menu_text(&SORT_MENU_TEXT, "HEAP      SORT", 30, HEAP_SORT, 0);
+	add_menu_text(&SORT_MENU_TEXT, "RADIX     SORT", 30, RADIX_SORT, 0);
 
 	add_menu_text(&SIZE_MENU_TEXT, "SELECT ARRAY SIZE", 30, 0, 0);
 	add_menu_text(&SIZE_MENU_TEXT, "10", 10, 10, 0);

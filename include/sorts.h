@@ -1,4 +1,10 @@
+#ifndef SORTS_H
+#define SORTS_H
+
 #include <string.h>
+
+enum sorts { BUBBLE_SORT, SELECTION_SORT, QUICK_SORT, MERGE_SORT, HEAP_SORT,
+	RADIX_SORT };
 
 #define SWAP(x, y) do {													\
 		unsigned char tmp[sizeof(x) == sizeof(y)						\
@@ -11,8 +17,11 @@
 
 void highlight_all(int arr[], int n);
 
-void bubbleSort(int arr[], int n);
-void quickSort(int arr[], int low, int high);
-void mergeSort(int arr[], int l, int r);
-void heapSort(int arr[], int n);
-void radixSort(int a[], int n);
+void bubble_sort(int arr[], int n);
+void selection_sort(int arr[], int n);
+void quick_sort(int arr[], int low, int high);
+void merge_sort(int arr[], int l, int r);
+void heap_sort(int arr[], int n);
+void radix_sort(int a[], int n);
+
+#endif

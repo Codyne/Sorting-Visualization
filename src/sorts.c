@@ -7,7 +7,8 @@ void highlight_all(int arr[], int n) {
 	insert_swap(n - 1, n - 1);
 }
 
-void bubbleSort(int arr[], int n) {
+/**** BUBBLE SORT ****/
+void bubble_sort(int arr[], int n) {
 	for (int i = 0; i < n-1; i++) {
 		for (int j = 0; j < n-i-1; j++) {
 			set_swap_highlight(j + 1);
@@ -18,6 +19,24 @@ void bubbleSort(int arr[], int n) {
 		}
 	}
 }
+/*********************/
+
+/**** SELECTION SORT ****/
+void selection_sort(int arr[], int n) {
+	int i, j, min;
+
+	for (i = 0; i < n - 1; i++) {
+		min = i;
+		for (j = i + 1; j < n; j++) {
+			set_swap_highlight(j);
+			if (arr[j] < arr[min]) min = j;
+		}
+
+			SWAP(arr[min], arr[i]);
+			insert_swap(min, i);
+		}
+}
+/************************/
 
 /**** QUICK SORT ****/
 int partition(int arr[], int low, int high) {
@@ -39,11 +58,11 @@ int partition(int arr[], int low, int high) {
 	return (i + 1);
 }
 
-void quickSort(int arr[], int low, int high) {
+void quick_sort(int arr[], int low, int high) {
 	if (low < high) {
 		int pi = partition(arr, low, high);
-		quickSort(arr, low, pi - 1);
-		quickSort(arr, pi + 1, high);
+		quick_sort(arr, low, pi - 1);
+		quick_sort(arr, pi + 1, high);
 	}
 }
 /********************/
@@ -98,12 +117,12 @@ void merge(int arr[], int l, int m, int r) {
 	}
 }
 
-void mergeSort(int arr[], int l, int r) {
+void merge_sort(int arr[], int l, int r) {
 	if (l < r) {
 		int m = l + (r - l) / 2;
 
-		mergeSort(arr, l, m);
-		mergeSort(arr, m + 1, r);
+		merge_sort(arr, l, m);
+		merge_sort(arr, m + 1, r);
 
 		merge(arr, l, m, r);
 	}
@@ -133,7 +152,7 @@ void heapify(int arr[], int n, int i) {
     }
 }
 
-void heapSort(int arr[], int n) {
+void heap_sort(int arr[], int n) {
     for (int i = n / 2 - 1; i >= 0; i--) heapify(arr, n, i);
 
     for (int i = n - 1; i >= 0; i--) {
@@ -145,7 +164,7 @@ void heapSort(int arr[], int n) {
 /*******************/
 
 /**** RADIX SORT ****/
-void radixSort(int arr[], int n) {
+void radix_sort(int arr[], int n) {
 	int maximum = arr[0];
 	int digits = 0;
 
