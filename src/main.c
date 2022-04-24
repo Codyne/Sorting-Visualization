@@ -193,6 +193,10 @@ int populate_sort_steps(int selectedSort) {
 		selection_sort(ARR, ARR_SIZE);
 		strncpy(ALGO_TEXT, "Selection Sort | ", 20);
 		break;
+	case INSERTION_SORT:
+		insertion_sort(ARR, ARR_SIZE);
+		strncpy(ALGO_TEXT, "Insertion Sort | ", 20);
+		break;
 	case QUICK_SORT:
 		quick_sort(ARR, 0, ARR_SIZE - 1);
 		strncpy(ALGO_TEXT, "Quick Sort | ", 20);
@@ -264,6 +268,7 @@ int main(int argc, char **argv) {
 	add_menu_text(&SORT_MENU_TEXT, "SELECT SORTING ALGORITHM", 30, 0, 0);
 	add_menu_text(&SORT_MENU_TEXT, "BUBBLE    SORT", 30, BUBBLE_SORT, 0);
 	add_menu_text(&SORT_MENU_TEXT, "SELECTION SORT", 30, SELECTION_SORT, 0);
+	add_menu_text(&SORT_MENU_TEXT, "INSERTION SORT", 30, INSERTION_SORT, 0);
 	add_menu_text(&SORT_MENU_TEXT, "QUICK     SORT", 30, QUICK_SORT, 0);
 	add_menu_text(&SORT_MENU_TEXT, "MERGE     SORT", 30, MERGE_SORT, 0);
 	add_menu_text(&SORT_MENU_TEXT, "HEAP      SORT", 30, HEAP_SORT, 0);

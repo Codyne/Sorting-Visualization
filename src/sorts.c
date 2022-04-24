@@ -38,6 +38,26 @@ void selection_sort(int arr[], int n) {
 }
 /************************/
 
+/**** INSERTION SORT ****/
+void insertion_sort(int arr[], int n) {
+	int i, key, j;
+	for (i = 1; i < n; i++) {
+		key = arr[i];
+		j = i - 1;
+
+		while (j >= 0 && arr[j] > key) {
+			set_swap_highlight(j + 1);
+			arr[j + 1] = arr[j];
+			set_swap_value(j + 1, arr[j]);
+			j = j - 1;
+		}
+
+		arr[j + 1] = key;
+		set_swap_value(j + 1, key);
+	}
+}
+/************************/
+
 /**** QUICK SORT ****/
 int partition(int arr[], int low, int high) {
 	int pivot = arr[high];
