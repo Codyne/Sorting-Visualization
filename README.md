@@ -2,15 +2,20 @@
 
 Sorting algorithm visualizer written in C with OpenGL
 
+The graphics are done with OpenGL. After the menu creation, an array is randomly generated and sorted, then played back at the desired speed that was set\
+Audible tones are also generated and played through the speakers using `libasound2`
+
 ## Installation
-You need the OpenGL dev packages\
-`sudo apt-get install freeglut3-dev`
+You need the OpenGL dev packages and the ALSA dev packages\
+`sudo apt-get install freeglut3-dev`\
+`sudo apt-get install libasound2-dev`
 
 Afterwards clone and make
 ```
 git clone git@github.com:Codyne/Sorting-Visualization.git
 cd Sorting-Visualization/
 make
+./sortvis
 ```
 
 ## Options
