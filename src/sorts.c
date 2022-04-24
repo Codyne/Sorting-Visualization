@@ -10,10 +10,10 @@ void highlight_all(int arr[], int n) {
 /**** BUBBLE SORT ****/
 void bubble_sort(int arr[], int n) {
 	for (int i = 0; i < n-1; i++) {
-		for (int j = 0; j < n-i-1; j++) {
+		for (int j = 0; j < n - i - 1; j++) {
 			set_swap_highlight(j + 1);
-			if (arr[j] > arr[j+1]) {
-				SWAP(arr[j], arr[j+1]);
+			if (arr[j] > arr[j + 1]) {
+				SWAP(arr[j], arr[j + 1]);
 				insert_swap(j, j + 1);
 			}
 		}
@@ -218,7 +218,7 @@ void radix_sort(int arr[], int n) {
 
 			new_array[count[num] - 1] = arr[j];
 			count[num]--;
-			set_swap_highlight(arr[j]);
+			set_swap_highlight(j);
 		}
 
 		for(int j = 0; j < n; j++) {
@@ -228,3 +228,39 @@ void radix_sort(int arr[], int n) {
 	}
 }
 /********************/
+
+void cocktail_sort(int arr[], int n) {
+	int swapped = 1;
+	int start = 0;
+	int end = n - 1;
+
+	while (swapped) {
+		swapped = 0;
+
+		for (int i = start; i < end; i++) {
+			set_swap_highlight(i);
+			if (arr[i] > arr[i + 1]) {
+				SWAP(arr[i], arr[i + 1]);
+				insert_swap(i, i + 1);
+				swapped = 1;
+			}
+		}
+
+		if (!swapped) break;
+
+		swapped = 0;
+
+		end--;
+
+		for (int i = end - 1; i >= start; i--) {
+			set_swap_highlight(i);
+			if (arr[i] > arr[i + 1]) {
+				SWAP(arr[i], arr[i + 1]);
+				insert_swap(i, i + 1);
+				swapped = 1;
+			}
+		}
+
+		start++;
+	}
+}

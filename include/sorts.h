@@ -4,7 +4,7 @@
 #include <string.h>
 
 enum sorts { BUBBLE_SORT, SELECTION_SORT, INSERTION_SORT, QUICK_SORT, MERGE_SORT,
-	HEAP_SORT, RADIX_SORT };
+	HEAP_SORT, RADIX_SORT, COCKTAIL_SORT };
 
 #define SWAP(x, y) do {													\
 		unsigned char tmp[sizeof(x) == sizeof(y)						\
@@ -23,6 +23,7 @@ void insertion_sort(int arr[], int n);
 void quick_sort(int arr[], int low, int high);
 void merge_sort(int arr[], int l, int r);
 void heap_sort(int arr[], int n);
-void radix_sort(int a[], int n);
+void radix_sort(int arr[], int n);
+void cocktail_sort(int arr[], int n);
 
 #endif

@@ -213,6 +213,10 @@ int populate_sort_steps(int selectedSort) {
 		radix_sort(ARR, ARR_SIZE);
 		strncpy(ALGO_TEXT, "Radix Sort | ", 20);
 		break;
+	case COCKTAIL_SORT:
+		cocktail_sort(ARR, ARR_SIZE);
+		strncpy(ALGO_TEXT, "Cocktail Sort | ", 20);
+		break;
 
 	default: break;
 	}
@@ -273,6 +277,7 @@ int main(int argc, char **argv) {
 	add_menu_text(&SORT_MENU_TEXT, "MERGE     SORT", 30, MERGE_SORT, 0);
 	add_menu_text(&SORT_MENU_TEXT, "HEAP      SORT", 30, HEAP_SORT, 0);
 	add_menu_text(&SORT_MENU_TEXT, "RADIX     SORT", 30, RADIX_SORT, 0);
+	add_menu_text(&SORT_MENU_TEXT, "COCKTAIL  SORT", 30, COCKTAIL_SORT, 0);
 
 	add_menu_text(&SIZE_MENU_TEXT, "SELECT ARRAY SIZE", 30, 0, 0);
 	add_menu_text(&SIZE_MENU_TEXT, "10", 10, 10, 0);
