@@ -18,6 +18,8 @@ make
 ./sortvis
 ```
 
+![heapsort.gif](https://raw.githubusercontent.com/Codyne/Sorting-Visualization/master/img/heapsort.gif)
+
 ## Options
 
 `Sorting Algorithm`: Currently can choose between a handful of sorting algorithms: bubble, selection, insertion, quick, merge, heap, radix, and cocktail.\
